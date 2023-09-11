@@ -39,10 +39,10 @@ Rare: Obsidian
 //Pool of possible metadata 
 
 //First Half of Rider Name
-let nameLeftList = ["Cyclone", "Heat", "Luna", "Fang"];
+let nameFirstHalf = ["Cyclone", "Heat", "Luna", "Fang"];
 
 //Second Half of Rider Name
-let nameRightList = ["Joker", "Metal", "Trigger", "Accel"];
+let nameSecondHalf = ["Joker", "Metal", "Trigger", "Accel"];
 
 //Armor Type
 let armorTypeList = ["Chainmail", "Platemail", "Obsidian"]
@@ -94,19 +94,14 @@ function getTotalSupply() {
    */       
   
    //Array to hold the rarity rolls 
-   var rarity = [0,0,0,0,0];
-   
-   //Loop to generate rarity rolls for each metadata
-   for(let i = 0; i<rarity.length; i++){
-      rarity[i] = Math.floor(Math.random() * 100) + 1;
-   }                
+   var rarity = [0,0,0,0,0];                
 
    //Variable to store temporary random roll value to be used in the metadata generation for loop
    var tmpRand = 0;
 
    //Variables used to store the metadata generated from metadata generation for loop to be used as parameters for mintNFT()
-   var leftName = "temp";
-   var rightName = "temp";
+   var firstHalf = "temp";
+   var secondHalf = "temp";
    var suffix = "";
    var armorType = "temp";
    var weapon = "temp";
@@ -115,27 +110,35 @@ function getTotalSupply() {
 /*For loop to generate metadata values based on the read rarity rolls from the rarity array 
 then call mintNFT() with the generated parameters*/
 for(let i = 0; i<5; i++){ 
+   
+   //Loop to generate rarity rolls for each metadata
+   for(let i = 0; i<rarity.length; i++){
+      rarity[i] = Math.floor(Math.random() * 100) + 1;
+   }
+
+
+ 
   for(let j = 0; j<rarity.length; j++){
       switch(j+1){
          case 1:
                //First Half of name 
                     //Common
-                   if((rarity[i] >=1) && (rarity[i] <= 75)){
-                        leftName = "Cyclone";
+                   if((rarity[j] >=1) && (rarity[j] <= 75)){
+                        firstHalf = nameFirstHalf[0];
                    }
                     //Uncommon
-                   else if((rarity[i] >=76) && (rarity[i] <= 97)){
+                   else if((rarity[j] >=76) && (rarity[j] <= 97)){
                         tmpRand = (Math.floor(Math.random() * 2) == 0);
                         if(tmpRand){
-                            leftName = "Heat";
+                            firstHalf = nameFirstHalf[1];
                         }
                         else{
-                            leftName = "Luna";
+                            firstHalf = nameFirstHalf[2];
                         }
                     }
                     //Rare
                    else{
-                        leftName = "Fang";
+                        firstHalf = nameFirstHalf[3];
                    }
 
                
@@ -143,28 +146,28 @@ for(let i = 0; i<5; i++){
          case 2:
                //Second Half of name
                 //Common
-                if((rarity[i] >=1) && (rarity[i] <= 75)){
-                    rightName = "Joker";
+                if((rarity[j] >=1) && (rarity[j] <= 75)){
+                    secondHalf = nameSecondHalf[0];
                }
                 //Uncommon
-                else if((rarity[i] >=76) && (rarity[i] <= 97)){
+                else if((rarity[j] >=76) && (rarity[j] <= 97)){
                     tmpRand = (Math.floor(Math.random() * 2) == 0);
                     if(tmpRand){
-                        rightName = "Metal";
+                        secondHalf = nameSecondHalf[1];
                     }
                     else{
-                        rightName = "Trigger";
+                        secondHalf = nameSecondHalf[2];
                     }
                 }
                 //Rare
                else{
-                    rightName = "Accel";
+                    secondHalf = nameSecondHalf[3];
                }
 
                break;
          case 3:
                //Special Suffix
-               if(rarity[i] == 100){
+               if(rarity[j] == 100){
                     suffix = "Xtreme";
                }
                break;
@@ -172,16 +175,16 @@ for(let i = 0; i<5; i++){
          case 4:
                //Armor Type
                 //Common
-                if((rarity[i] >=1) && (rarity[i] <= 75)){
-                    armorType = "Chainmail";
+                if((rarity[j] >=1) && (rarity[j] <= 75)){
+                    armorType = armorTypeList[0];
                 }   
                 //Uncommon
-                else if((rarity[i] >=76) && (rarity[i] <= 97)){
-                    armorType = "Platemail";
+                else if((rarity[j] >=76) && (rarity[j] <= 97)){
+                    armorType = armorTypeList[1];
                 }
                 //Rare
                 else{
-                    armorType = "Obsidian";
+                    armorType = armorTypeList[2];
                 }
                break;
 
@@ -190,31 +193,31 @@ for(let i = 0; i<5; i++){
                tmpRand = Math.floor(Math.random() * 7) + 1
                switch(tmpRand){
                   case 1:
-                        weapon = "Staff";
+                        weapon = weaponTypeList[0];
                         break;
 
                   case 2:
-                        weapon = "Sword";
+                        weapon = weaponTypeList[1];
                         break;
 
                   case 3:
-                        weapon = "Katana";
+                        weapon = weaponTypeList[2];
                         break;
 
                   case 4:
-                        weapon = "Bow";
+                        weapon = weaponTypeList[3];
                     break;
 
                   case 5:
-                        weapon = "Blaster";
+                        weapon = weaponTypeList[4];
                         break;
 
                   case 6:
-                        weapon = "Glaive";
+                        weapon = weaponTypeList[5];
                         break;
 
                   default:
-                        weapon = "Scythe";
+                        weapon = weaponTypeList[6];
                         break;
                }
                break;
@@ -223,7 +226,7 @@ for(let i = 0; i<5; i++){
       
    }
 
-   riderName = leftName + " " + rightName + " " + suffix;
+   riderName = firstHalf + " " + secondHalf + " " + suffix;
    mintNFT(riderName,armorType,weapon);
 }
    listNFTs();
